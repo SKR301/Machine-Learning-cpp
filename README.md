@@ -13,7 +13,7 @@ A basic Machine Learning library in C++
 
 ## HowTo
 1. Download the project.
-2. Open the *ML algorithm* folder you want to run.
+2. Open the **ML algorithm** folder you want to run.
 3. Copy the `.h` file to your program directory.
 4. Use it as you may.
 5. You can check out the `test.cpp` file for examples.
