@@ -4,7 +4,7 @@
 int main(int argc, char const *argv[])
 {
 	csv CSV;
-	std::vector<std::vector<double>> result = CSV.read("data.csv");
+	std::vector<std::vector<double>> result = CSV.read("data.csv");		//data file
 
 	std::cout<<"X: ";
 	for(int a=0;a<result.size();a++){

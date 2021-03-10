@@ -3,9 +3,9 @@
 
 int main(int argc, char const *argv[])
 {
-	simpleLinearRegression SLR;
+	simpleLinearRegression SLR("data.csv");
 	
-	SLR.readData("data.csv");
+	SLR.readData();		
 
 	SLR.displayReadData();
 	
@@ -14,6 +14,8 @@ int main(int argc, char const *argv[])
 	double testCase=SLR.predict(11);
 
 	std::cout<<"\n\n"<<testCase;
+
+	SLR.plot();
 
 	std::cout<<"\n\n";
 	system("pause");

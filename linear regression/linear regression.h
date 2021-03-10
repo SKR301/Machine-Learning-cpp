@@ -1,4 +1,5 @@
 #include "../csv/csv.h"
+#include "../gnu/gnu.h"
 
 /*PERFORM LINEAR REGRESSION ON GIVEN DATA AND EVEN PREDICT ACCORDINGLY*/
 
@@ -9,22 +10,29 @@ private:
 	int N;
 	double slope;
 	double intercept;
+	std::string filename;
 
 public:
-	void readData(std::string filename);		//read data from csv file
+	simpleLinearRegression(std::string dataFile);	
+
+	void readData();		//read data from csv file
 
 	int checkData();		//check for data inconsistency
 
 	void runAlgo();		//calc slope and intercept
 
-	void plot();		//plot the data graph (TODO)
+	void plot();		//plot the data graph
 
 	double predict(double x);		//perform prediction based on the data
 
 	void displayReadData();		//display data read
 };
 
-void simpleLinearRegression::readData(std::string filename){
+simpleLinearRegression::simpleLinearRegression(std::string dataFile){
+	filename=dataFile;
+}
+
+void simpleLinearRegression::readData(){
 	csv CSV;
 	std::vector<std::vector<double>> data = CSV.read(filename);
 
@@ -45,8 +53,8 @@ void simpleLinearRegression::readData(std::string filename){
 
 int simpleLinearRegression::checkData(){
 	if(X.size()!=Y.size()){					//check for unequal size
-		std::cout<<"\n\n---------INVALID DATA--------";
-		std::cout<<"\nData size not equal";
+		std::cerr<<"\n\n---------INVALID DATA--------";
+		std::cerr<<"\nData size not equal";
 		return 0;
 	}
 	return 1;
@@ -73,7 +81,7 @@ double simpleLinearRegression::predict(double x){
 	return (slope*x)+intercept;			//return predicted value
 }
 
-void simpleLinearRegression::displayReadData(){		
+void simpleLinearRegression::displayReadData(){
 	std::cout<<"X: ";
 	for(int a=0;a<X.size();a++){			//display X data
 		std::cout<<X[a]<<" ";
@@ -84,4 +92,9 @@ void simpleLinearRegression::displayReadData(){
 	for(int a=0;a<Y.size();a++){			//display Y data
 		std::cout<<Y[a]<<" ";
 	}
+}
+
+void simpleLinearRegression::plot(){
+	gnu GNU;
+	GNU.plotGraph(filename,slope,intercept);		//plot data points with regression line
 }
