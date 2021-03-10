@@ -9,7 +9,7 @@ A basic Machine Learning library in C++
 
 ## Technologies
 - C++
-- gnuplot(Work in Progress)
+- gnuplot
 
 ## HowTo
 1. Download the project.
@@ -17,6 +17,8 @@ A basic Machine Learning library in C++
 3. Copy the `.h` file to your program directory.
 4. Use it as you may.
 5. You can check out the `test.cpp` file for examples.
+6. To use graph you need to have *gnuplot* (http://www.gnuplot.info/download.html).
+7. Also add it as `global variable`.
 
 ## Screenshots
 Work in progress
