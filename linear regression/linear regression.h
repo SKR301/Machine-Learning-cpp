@@ -34,7 +34,7 @@ simpleLinearRegression::simpleLinearRegression(std::string dataFile){
 
 void simpleLinearRegression::readData(){
 	csv CSV;
-	std::vector<std::vector<double>> data = CSV.read(filename);
+	std::vector<std::vector<double>> data = CSV.readPoint(filename);
 
 	for(int a=0;a<data.size();a++){			//read X values
 		X.push_back(data[a][0]);
@@ -83,13 +83,13 @@ double simpleLinearRegression::predict(double x){
 
 void simpleLinearRegression::displayReadData(){
 	std::cout<<"X: ";
-	for(int a=0;a<X.size();a++){			//display X data
+	for(int a=0;a<N;a++){			//display X data
 		std::cout<<X[a]<<" ";
 	}
 
 	std::cout<<"\n\n";
 	std::cout<<"Y: ";
-	for(int a=0;a<Y.size();a++){			//display Y data
+	for(int a=0;a<N;a++){			//display Y data
 		std::cout<<Y[a]<<" ";
 	}
 }

@@ -3,10 +3,11 @@
 
 class csv{
 public:
-	std::vector<std::vector<double>> read(std::string fileName);	//read from file
+	std::vector<std::vector<double>> readPoint(std::string fileName);	//read from file return points
+	std::vector<std::string> readTable(std::string fileName);			//read from file return table value
 };
 
-std::vector<std::vector<double>> csv::read(std::string fileName){
+std::vector<std::vector<double>> csv::readPoint(std::string fileName){
 	std::fstream file(fileName);
 	std::string line;
 	std::vector<std::vector<double>> result;
@@ -30,5 +31,18 @@ std::vector<std::vector<double>> csv::read(std::string fileName){
 	    }
 	    result.push_back(temp);
 	}
+	return result;
+}
+
+std::vector<std::string> csv::readTable(std::string fileName){
+	std::fstream file(fileName);
+	std::string line;
+	std::vector<std::string> result;
+
+	while (std::getline(file, line))		//read a line
+	{
+		result.push_back(line);
+	}
+
 	return result;
 }
