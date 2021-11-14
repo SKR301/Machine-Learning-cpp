@@ -6,6 +6,7 @@ int main(int argc, char const *argv[])
 	NaiveBayes NB("data.csv");
 	
 	NB.readData();
+	NB.displayMatrix();
 
 	std::cout<<"\n\n";
 	system("pause");

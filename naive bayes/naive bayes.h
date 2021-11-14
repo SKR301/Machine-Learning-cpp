@@ -15,6 +15,7 @@ public:
 
 	void runAlgo();			//predict outcome
 
+	void displayMatrix();	//display matrix
 };
 
 NaiveBayes::NaiveBayes(std::string dataFile){
@@ -47,13 +48,17 @@ void NaiveBayes::readData(){
 			}
 		}
 	}
-
-	std::cout << "MATRIX:\n";
-	std::map<std::string, std::vector<int>>::iterator it = matrix.begin();
-	for (it=matrix.begin(); it!=matrix.end(); ++it)
-    	std::cout << it->first << " => " << it->second[0] << " => " << it->second[1] << '\n';
 }
 
 void NaiveBayes::runAlgo(){
 
 }	
+
+void NaiveBayes::displayMatrix(){
+	std::cout<<"\n\n---MATRIX---\n\n";
+	std::map<std::string, std::vector<int>>::iterator it = matrix.begin();
+
+	std::cout<<"Index"<<"\t\t"<<"1s"<<"\t\t"<<"0s"<<"\n";
+	for (it=matrix.begin(); it!=matrix.end(); ++it)
+    	std::cout<<it->first<<"\t\t"<<it->second[0]<<"\t\t"<<it->second[1]<<"\n";
+}
