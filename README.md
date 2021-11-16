@@ -4,7 +4,6 @@ A basic Machine Learning library in C++
 ## Table of Content
 - [Technologies](#technologies)
 - [HowTo](#HowTo)
-- [Screenshots](#screenshots)
 - [Contributors](#contributors)
 
 ## Technologies
@@ -19,9 +18,6 @@ A basic Machine Learning library in C++
 5. You can check out the `test.cpp` file for examples.
 6. To use graph you need to have *gnuplot* (http://www.gnuplot.info/download.html).
 7. Also add it as `global variable`.
-
-## Screenshots
-Work in progress
 
 ## Contributors
 @SKR301- [Saurav Kumar](https://github.com/SKR301): Original Creator
