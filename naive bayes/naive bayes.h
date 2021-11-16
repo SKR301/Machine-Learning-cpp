@@ -6,6 +6,8 @@
 class NaiveBayes{
 private:
 	std::map<std::string, std::vector<int>> matrix;
+	int Ones;
+	int Zeros;
 	std::string filename;
 
 public:
@@ -20,6 +22,8 @@ public:
 
 NaiveBayes::NaiveBayes(std::string dataFile){
 	filename=dataFile;
+	Ones=0;
+	Zeros=0;
 }
 
 void NaiveBayes::readData(){
@@ -27,24 +31,25 @@ void NaiveBayes::readData(){
 	std::vector<std::vector<std::string>> data = CSV.readTable2Col(filename);
 
 	for(int a=0;a<data.size();a++){
-		
 		std::map<std::string, std::vector<int>>::iterator it = matrix.find(data[a][0]);
 		
 		if(it == matrix.end()){
 			std::vector<int> temp = {0,0};
 
 			if(data[a][1] == "yes"){
-				temp[0]++;
-			} else {
 				temp[1]++;
+				Ones++;
+			} else {
+				temp[0]++;
+				Zeros++;
 			}
 
 			matrix[data[a][0]] = temp;
 		} else {
 			if(data[a][1] == "yes"){
-				++matrix[data[a][0]][0];
-			} else{
 				++matrix[data[a][0]][1];
+			} else{
+				++matrix[data[a][0]][0];
 			}
 		}
 	}
@@ -60,5 +65,5 @@ void NaiveBayes::displayMatrix(){
 
 	std::cout<<"Index"<<"\t\t"<<"1s"<<"\t\t"<<"0s"<<"\n";
 	for (it=matrix.begin(); it!=matrix.end(); ++it)
-    	std::cout<<it->first<<"\t\t"<<it->second[0]<<"\t\t"<<it->second[1]<<"\n";
+    	std::cout<<it->first<<"\t\t"<<it->second[1]<<"\t\t"<<it->second[0]<<"\n";
 }
