@@ -1,5 +1,5 @@
 # Machine-Learning-cpp
-A basic Machine Learning library in C++
+A basic Machine Learning library in C++ [under progress]
   
 ## Table of Content
 - [Technologies](#technologies)
