@@ -3,8 +3,8 @@ private:
 	double weight;
 	double bias;
 public:
-	Path(double, double);
 	Path();
+	Path(double, double);
 	double getRes();
 }
 
