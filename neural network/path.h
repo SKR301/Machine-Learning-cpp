@@ -6,7 +6,7 @@ public:
 	Path();
 	Path(double, double);
 	double retOutput(double);
-}
+};
 
 Path::Path(){
 	weight = 0;

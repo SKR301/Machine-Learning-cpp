@@ -6,7 +6,7 @@ public:
 	Neuron(double);
 	bool activationFunc();
 	double retVal();
-}
+};
 
 Neuron::Neuron(double v){
 	val = v;
