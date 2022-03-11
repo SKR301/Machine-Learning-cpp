@@ -1,7 +1,10 @@
-#include<bits/stdc+++.h>
+#include<bits/stdc++.h>
+#include "neural network.h"
 
 int main(int argc, char const *argv[])
 {
-	/* code */
+	
+
+	system("pause");
 	return 0;
 }
