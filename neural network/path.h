@@ -1,11 +1,15 @@
 class Path{
 private:
-public:
 	double weight;
 	double bias;
+public:
 	Path();
 	Path(double, double);
 	double retOutput(double);
+	double retWeight();
+	double retBias();
+	void setWeight(double);
+	void setBias(double);
 };
 
 Path::Path(){
@@ -19,9 +23,21 @@ Path::Path(double w, double b){
 }
 
 double Path::retOutput(double input){
-	double output = 0;
+	return weight * input + bias;
+}
 
-	/*calculate output for this path*/
+double Path::retWeight(){
+	return weight;
+}
 
-	return output;
+double Path::retBias(){
+	return bias;
+}
+
+void Path::setWeight(double w){
+	weight = w;
+}	
+
+void Path::setBias(double b){
+	bias = b;
 }

@@ -18,10 +18,7 @@ Neuron::Neuron(double v){
 }
 
 bool Neuron:: activationFunc(){
-
-	/*code for activation function*/
-
-	return true;
+	return (val >= 0.5);
 }
 
 double Neuron::retVal(){

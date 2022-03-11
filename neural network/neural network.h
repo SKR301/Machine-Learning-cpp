@@ -18,6 +18,7 @@ public:
 	void setOutputLayer();
 	void setPathInputOutput();
 	void run();
+	void setOutput();
 	int retOutput();
 };
 
@@ -29,7 +30,6 @@ NeuralNetwork::NeuralNetwork(std::vector<std::vector<int>> input){
 	setInputLayer(input);
 	setOutputLayer();
 	setPathInputOutput();
-
 }
 
 void NeuralNetwork::setInputLayer(std::vector<std::vector<int>> input){
@@ -60,13 +60,35 @@ void NeuralNetwork::setPathInputOutput(){
 }
 
 void NeuralNetwork::run(){
-	/*Run the network*/
-	
+	for(int a=0;a<inputLayerSize;a++){
+		for(int b=0;b<outputLayerSize;b++){
+			int val;
+			if(inputLayer[a].activationFunc()){
+				val = pathInputOutput[a][b].retOutput(inputLayer[a].retVal());
+			} else {
+				val = 0;
+			}
+			outputLayer[b].setVal(outputLayer[b].retVal() + val);
+		}
+	}
+
+	setOutput();
+}
+
+void NeuralNetwork::setOutput(){
+	int max = 0;
+
+	for(int a=0;a<outputLayerSize;a++){
+		std::cout<<"\n"<<a<<" "<<outputLayer[a].retVal();
+		if(max < outputLayer[a].retVal()){
+			max = a;
+		}
+	}
+
+	output = max;
 }
 
 int NeuralNetwork::retOutput(){
 	return output;
 }
-
-
 
