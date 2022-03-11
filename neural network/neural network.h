@@ -79,7 +79,6 @@ void NeuralNetwork::setOutput(){
 	int max = 0;
 
 	for(int a=0;a<outputLayerSize;a++){
-		std::cout<<"\n"<<a<<" "<<outputLayer[a].retVal();
 		if(max < outputLayer[a].retVal()){
 			max = a;
 		}
