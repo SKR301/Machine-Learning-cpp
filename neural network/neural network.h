@@ -14,7 +14,7 @@ private:
 
 public:
 	NeuralNetwork(std::vector<std::vector<int>>);
-	std::vector<Neuron> setInputLayer(std::vector<std::vector<int>>);
+	void setInputLayer(std::vector<std::vector<int>>);
 	void run();
 	int retOutput();
 };
@@ -24,14 +24,16 @@ NeuralNetwork::NeuralNetwork(std::vector<std::vector<int>> input){
 	int outputLayerSize = 2;
 	int pathInputOutputSize = inputLayerSize * outputLayerSize;
 
-	std::cout<<inputLayerSize<<" "<<outputLayerSize<<" "<<pathInputOutputSize;
-	// inputLayer = setInputLayer(input);
+	setInputLayer(input);
 }
 
-std::vector<Neuron> NeuralNetwork::setInputLayer(std::vector<std::vector<int>> input){
-	/*Feed data from input matrix to inputLayer*/
-	std::vector<Neuron> v;
-	return v;
+void NeuralNetwork::setInputLayer(std::vector<std::vector<int>> input){
+	for(int a=0;a<input.size();a++){
+		for(int b=0;b<input[a].size();b++){
+			Neuron neuronNode(input[a][b]);
+			inputLayer.push_back(neuronNode);
+		}
+	}
 }
 
 void NeuralNetwork::run(){
