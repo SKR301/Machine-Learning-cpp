@@ -3,8 +3,14 @@ private:
 	double weight;
 	double bias;
 public:
+	Path(double, double);
 	Path();
 	double getRes();
+}
+
+Path::Path(){
+	weight = 0;
+	bias = 0;
 }
 
 Path::Path(double w, double b){
