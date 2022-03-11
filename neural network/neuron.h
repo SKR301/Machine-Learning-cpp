@@ -9,12 +9,12 @@ public:
 	void setVal(double);
 };
 
-Neuron::Neuron(double v){
-	val = v;
-}
-
 Neuron::Neuron(){
 	val = 0;
+}
+
+Neuron::Neuron(double v){
+	val = v;
 }
 
 bool Neuron:: activationFunc(){

@@ -1,15 +1,15 @@
 class Path{
 private:
+public:
 	double weight;
 	double bias;
-public:
 	Path();
 	Path(double, double);
 	double retOutput(double);
 };
 
 Path::Path(){
-	weight = 0;
+	weight = 1;
 	bias = 0;
 }
 
