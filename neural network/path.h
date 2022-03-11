@@ -5,7 +5,7 @@ private:
 public:
 	Path();
 	Path(double, double);
-	double getRes();
+	double retOutput(double);
 }
 
 Path::Path(){
@@ -18,7 +18,7 @@ Path::Path(double w, double b){
 	bias = b;
 }
 
-double Path::getRes(double input){
+double Path::retOutput(double input){
 	double output = 0;
 
 	/*calculate output for this path*/

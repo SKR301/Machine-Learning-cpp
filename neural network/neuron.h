@@ -5,6 +5,7 @@ public:
 	Neuron();
 	Neuron(double);
 	bool activationFunc();
+	double retVal();
 }
 
 Neuron::Neuron(double v){
@@ -16,5 +17,12 @@ Neuron::Neuron(){
 }
 
 bool Neuron:: activationFunc(){
-	return (val >= 0.5);
+
+	/*code for activation function*/
+
+	return true;
+}
+
+double Neuron::retVal(){
+	return val;
 }

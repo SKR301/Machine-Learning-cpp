@@ -4,8 +4,8 @@
 class NeuralNetwork{
 private:
 	std::vector<Neuron> inputLayer;
-	vec
+	std::vector<std::vector<Path>> pathInputOutput;
+	std::vector<Neuron> outputLayer;
 public:
-	int a;
 	
 };
