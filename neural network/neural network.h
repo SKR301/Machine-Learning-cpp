@@ -176,7 +176,7 @@ void NeuralNetwork::forwardPropagation(){
 		sumExp += exp(outputLayer[a]);
 	}
 	for(int a=0;a<outputLayerSize;a++){
-		outputLayer[a] = outputLayer[a] / sumExp;
+		outputLayer[a] = exp(outputLayer[a]) / sumExp;
 	}
 
 	std::cout<<"\n\nFORWARD_PROPAGATION(output ACTIVATED):\n\n";
