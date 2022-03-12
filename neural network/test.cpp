@@ -10,6 +10,7 @@ int main(int argc, char const *argv[]){
 
 	// NN.printData();
 	// NN.printInputLayerData();
+	NN.printModel();
 
 	std::cout<<"\n\n";
 	system("pause");
