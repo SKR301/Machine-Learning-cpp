@@ -17,8 +17,11 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 
 void NeuralNetwork::readData(){
 	csv CSV;
-	std::vector<std::vector<int>> data = CSV.readTableMulColIntData(filename);
+	data = CSV.readTableMulColIntData(filename);
 
+}
+
+void NeuralNetwork::printData(){
 	for(int a=0;a<data.size();a++){
 		for(int b=0;b<data[a].size();b++){
 			std::cout<<data[a][b]<<" ";
