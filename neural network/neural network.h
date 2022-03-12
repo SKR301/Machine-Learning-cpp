@@ -17,7 +17,7 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 
 void NeuralNetwork::readData(){
 	csv CSV;
-	std::vector<std::vector<std::string>> data = CSV.readTableMulCol(filename);
+	std::vector<std::vector<int>> data = CSV.readTableMulColIntData(filename);
 
 	for(int a=0;a<data.size();a++){
 		for(int b=0;b<data[a].size();b++){
