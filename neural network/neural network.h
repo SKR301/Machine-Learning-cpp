@@ -16,6 +16,7 @@ private:
 	int actualOutput;
 	int output;
 
+
 	int inputLayerSize;
 	int outputLayerSize;
 	int hiddenLayer1Size;
@@ -26,6 +27,8 @@ public:
 	void printData();		//print read data
 	void initInputOutput(int);		//initialize the input layer with provided row data
 	void printInputLayerData();		//print input layer data
+	void printHiddenLayer1Data();		//print hidden layer1 data
+	void printOutputLayerData();		//print output layer data
 	void printModel();		//print weights and bias
 	void forwardPropagation(); 		//run the NN forward (generates an output)
 	void backwardPropagation(); 		//run the NN backward (updates for errors)
@@ -79,13 +82,6 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 		}
 		oneHot.push_back(temp);
 	}
-	for(int a=0;a<outputLayerSize;a++){
-		for(int b=0;b<outputLayerSize;b++){
-			std::cout<<oneHot[a][b]<<" ";
-		}
-		std::cout<<"\n";
-	}
-
 }
 
 void NeuralNetwork::readData(){
@@ -117,6 +113,20 @@ void NeuralNetwork::printInputLayerData(){
 	std::cout<<"\n\nINPUT LAYER DATA:\n\n";
 	for(int a=0;a<inputLayerSize;a++){
 		std::cout<<inputLayer[a]<<" ";
+	}
+}
+
+void NeuralNetwork::printHiddenLayer1Data(){
+	std::cout<<"\n\nHIDDEN LAYER 1 DATA:\n\n";
+	for(int a=0;a<hiddenLayer1Size;a++){
+		std::cout<<hiddenLayer1[a]<<" ";
+	}
+}
+
+void NeuralNetwork::printOutputLayerData(){
+	std::cout<<"\n\nOUTPUT LAYER DATA:\n\n";
+	for(int a=0;a<outputLayerSize;a++){
+		std::cout<<outputLayer[a]<<" ";
 	}
 }
 
@@ -155,18 +165,10 @@ void NeuralNetwork::forwardPropagation(){
 	hiddenLayer1 = ReLU(hiddenLayer1, hiddenLayer1Size);
 	outputLayer = calcDotProductAddBias(hidden1OutputWeight, hiddenLayer1, outputLayerBias, outputLayerSize, hiddenLayer1Size);
 	outputLayer = softMax(outputLayer, outputLayerSize);
-	// std::cout<<"\n\nHIDDEN_LAYER:\n\n";
-	// for(int a=0;a<hiddenLayer1Size;a++){
-	// 	std::cout<<hiddenLayer1[a]<<"\t";
-	// }
-	// std::cout<<"\n\nOUTERLAYER:\n\n";
-	// for(int a=0;a<outputLayerSize;a++){
-	// 	std::cout<<outputLayer[a]<<"\t";
-	// }
 }
 
 void NeuralNetwork::backwardPropagation(){
-
+	// std::vector<double> outputLayerError = vectorSubtraction();
 }
 
 std::vector<double> NeuralNetwork::ReLU(std::vector<double> vec, int size){
