@@ -48,9 +48,9 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 	}
 
   	srand (time(NULL));
-	for(int a=0;a<inputLayerSize;a++){
+	for(int a=0;a<hiddenLayer1Size;a++){
 		std::vector<double> temp;
-		for(int b=0;b<hiddenLayer1Size;b++){
+		for(int b=0;b<inputLayerSize;b++){
 			temp.push_back(((double)(rand() % 1000)/ 1000) - 0.5);
 		}
 		inputHidden1Weight.push_back(temp);
@@ -58,9 +58,9 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 	for(int a=0;a<hiddenLayer1Size;a++){
 		hiddenLayer1Bias.push_back(((double)(rand() % 1000)/ 1000) - 0.5);
 	}
-	for(int a=0;a<hiddenLayer1Size;a++){
+	for(int a=0;a<outputLayerSize;a++){
 		std::vector<double> temp;
-		for(int b=0;b<outputLayerSize;b++){
+		for(int b=0;b<hiddenLayer1Size;b++){
 			temp.push_back(((double)(rand() % 1000)/ 1000) - 0.5);
 		}
 		hidden1OutputWeight.push_back(temp);
@@ -104,8 +104,8 @@ void NeuralNetwork::printInputLayerData(){
 
 void NeuralNetwork::printModel(){
 	std::cout<<"\n\nINPUT_HIDDEN1_WEIGHT:\n\n";
-	for(int a=0;a<inputLayerSize;a++){
-		for(int b=0;b<hiddenLayer1Size;b++){
+	for(int a=0;a<hiddenLayer1Size;a++){
+		for(int b=0;b<inputLayerSize;b++){
 			std::cout<<inputHidden1Weight[a][b]<<"\t";
 		}
 		std::cout<<"\n";
@@ -113,12 +113,12 @@ void NeuralNetwork::printModel(){
 
 	std::cout<<"\n\nHIDDEN1_BIAS:\n\n";
 	for(int a=0;a<hiddenLayer1Size;a++){
-		std::cout<<hiddenLayer1Bias[a]<<"\t";
+		std::cout<<hiddenLayer1Bias[a]<<"\n";
 	}
 
 	std::cout<<"\n\nHIDDEN1_OUTPUT_WEIGHT:\n\n";
-	for(int a=0;a<hiddenLayer1Size;a++){
-		for(int b=0;b<outputLayerSize;b++){
+	for(int a=0;a<outputLayerSize;a++){
+		for(int b=0;b<hiddenLayer1Size;b++){
 			std::cout<<hidden1OutputWeight[a][b]<<"\t";
 		}
 		std::cout<<"\n";
@@ -126,11 +126,12 @@ void NeuralNetwork::printModel(){
 
 	std::cout<<"\n\nOUTPUT_BIAS:\n\n";
 	for(int a=0;a<outputLayerSize;a++){
-		std::cout<<outputLayerBias[a]<<"\t";
+		std::cout<<outputLayerBias[a]<<"\n";
 	}
 }
 
 void NeuralNetwork::forwardPropagation(){
+	std::cout<<"\n\n--------------------------------:\n\n";
 	// input-hidden1
 	for(int a=0;a<hiddenLayer1Size;a++){
 		double val = 0;
@@ -140,10 +141,9 @@ void NeuralNetwork::forwardPropagation(){
 		hiddenLayer1[a] = val + hiddenLayer1Bias[a];
 	}
 
-
-	std::cout<<"\n\nFORWARD_PROPAGATION(input-hidden1):\n\n";
+	std::cout<<"\n\nFORWARD_PROPAGATION(hidden1):\n\n";
 	for(int a=0;a<hiddenLayer1Size;a++){
-		std::cout<<hiddenLayer1[a]<<"\n";
+		std::cout<<hiddenLayer1[a]<<"\t";
 	}
 
 	//reLU on hidden1
@@ -151,8 +151,36 @@ void NeuralNetwork::forwardPropagation(){
 		hiddenLayer1[a] = std::max(0.0,hiddenLayer1[a]);
 	}
 
-	std::cout<<"\n\nFORWARD_PROPAGATION(hidden1):\n\n";
+	std::cout<<"\n\nFORWARD_PROPAGATION(hidden1 ACTIVATED):\n\n";
 	for(int a=0;a<hiddenLayer1Size;a++){
-		std::cout<<hiddenLayer1[a]<<"\n";
+		std::cout<<hiddenLayer1[a]<<"\t";
+	}
+
+	// hidden1-output
+	for(int a=0;a<outputLayerSize;a++){
+		double val = 0;
+		for(int b=0;b<hiddenLayer1Size;b++){
+			val += hidden1OutputWeight[a][b] * hiddenLayer1[b];
+		}
+		outputLayer[a] = val + outputLayerBias[a];
+	}
+
+	std::cout<<"\n\nFORWARD_PROPAGATION(output):\n\n";
+	for(int a=0;a<outputLayerSize;a++){
+		std::cout<<outputLayer[a]<<"\t";
+	}
+
+	//softMax on output
+	double sumExp = 0;
+	for(int a=0;a<outputLayerSize;a++){
+		sumExp += exp(outputLayer[a]);
+	}
+	for(int a=0;a<outputLayerSize;a++){
+		outputLayer[a] = outputLayer[a] / sumExp;
+	}
+
+	std::cout<<"\n\nFORWARD_PROPAGATION(output ACTIVATED):\n\n";
+	for(int a=0;a<outputLayerSize;a++){
+		std::cout<<outputLayer[a]<<"\t";
 	}
 }
