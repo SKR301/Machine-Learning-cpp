@@ -10,8 +10,8 @@ private:
 	std::vector<double> outputLayer;
 	std::vector<std::vector<double>> inputHidden1Weight;
 	std::vector<std::vector<double>> hidden1OutputWeight;
-	std::vector<std::vector<double>> inputHidden1Bias;
-	std::vector<std::vector<double>> hidden1OutputBias;
+	std::vector<double> hiddenLayer1Bias;
+	std::vector<double> outputLayerBias;
 	int actualOutput;
 
 	int inputLayerSize;
@@ -52,12 +52,8 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 		}
 		inputHidden1Weight.push_back(temp);
 	}
-	for(int a=0;a<inputLayerSize;a++){
-		std::vector<double> temp;
-		for(int b=0;b<hiddenLayer1Size;b++){
-			temp.push_back(((double)(rand() % 1000)/ 1000) - 0.5);
-		}
-		inputHidden1Bias.push_back(temp);
+	for(int a=0;a<hiddenLayer1Size;a++){
+		hiddenLayer1Bias.push_back(((double)(rand() % 1000)/ 1000) - 0.5);
 	}
 	for(int a=0;a<hiddenLayer1Size;a++){
 		std::vector<double> temp;
@@ -66,12 +62,8 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 		}
 		hidden1OutputWeight.push_back(temp);
 	}
-	for(int a=0;a<hiddenLayer1Size;a++){
-		std::vector<double> temp;
-		for(int b=0;b<outputLayerSize;b++){
-			temp.push_back(((double)(rand() % 1000)/ 1000) - 0.5);
-		}
-		hidden1OutputBias.push_back(temp);
+	for(int a=0;a<outputLayerSize;a++){
+		outputLayerBias.push_back(((double)(rand() % 1000)/ 1000) - 0.5);
 	}
 }
 
@@ -108,19 +100,29 @@ void NeuralNetwork::printInputLayerData(){
 }
 
 void NeuralNetwork::printModel(){
-	std::cout<<"\n\nINPUT_HIDDEN1_WEIGHT|BIAS:\n\n";
+	std::cout<<"\n\nINPUT_HIDDEN1_WEIGHT:\n\n";
 	for(int a=0;a<inputLayerSize;a++){
 		for(int b=0;b<hiddenLayer1Size;b++){
-			std::cout<<inputHidden1Weight[a][b]<<"|"<<inputHidden1Bias[a][b]<<"\t";
+			std::cout<<inputHidden1Weight[a][b]<<"\t";
 		}
 		std::cout<<"\n";
 	}
 
-	std::cout<<"\n\nHIDDEN1_OUTPUT_WEIGHT|BIAS:\n\n";
+	std::cout<<"\n\nHIDDEN1_BIAS:\n\n";
+	for(int a=0;a<hiddenLayer1Size;a++){
+		std::cout<<hiddenLayer1Bias[a]<<"\t";
+	}
+
+	std::cout<<"\n\nHIDDEN1_OUTPUT_WEIGHT:\n\n";
 	for(int a=0;a<hiddenLayer1Size;a++){
 		for(int b=0;b<outputLayerSize;b++){
-			std::cout<<hidden1OutputWeight[a][b]<<"|"<<hidden1OutputBias[a][b]<<"\t";
+			std::cout<<hidden1OutputWeight[a][b]<<"\t";
 		}
 		std::cout<<"\n";
+	}
+
+	std::cout<<"\n\nOUTPUT_BIAS:\n\n";
+	for(int a=0;a<outputLayerSize;a++){
+		std::cout<<outputLayerBias[a]<<"\t";
 	}
 }

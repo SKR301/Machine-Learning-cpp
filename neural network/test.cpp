@@ -3,9 +3,9 @@
 
 int main(int argc, char const *argv[]){
 
-	NeuralNetwork NN("data.csv");
+	NeuralNetwork NN("train_data.csv");
 
-	// NN.readData();
+	NN.readData();
 	// NN.initInputOutput(1);
 
 	// NN.printData();
