@@ -9,9 +9,10 @@ int main(int argc, char const *argv[]){
 	NN.initInputOutput(0);
 
 	// NN.printData();
-	NN.printInputLayerData();
 	NN.printModel();
 	NN.forwardPropagation();
+	NN.printInputLayerData();
+	NN.printHiddenLayer1Data();
 	NN.printOutputLayerData();
 	NN.backwardPropagation();
 	
