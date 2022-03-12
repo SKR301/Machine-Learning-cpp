@@ -131,6 +131,7 @@ void NeuralNetwork::printModel(){
 }
 
 void NeuralNetwork::forwardPropagation(){
+	// input-hidden1
 	for(int a=0;a<hiddenLayer1Size;a++){
 		double val = 0;
 		for(int b=0;b<inputLayerSize;b++){
@@ -139,7 +140,18 @@ void NeuralNetwork::forwardPropagation(){
 		hiddenLayer1[a] = val + hiddenLayer1Bias[a];
 	}
 
-	std::cout<<"\n\nFORWARD_PROPAGATION:\n\n";
+
+	std::cout<<"\n\nFORWARD_PROPAGATION(input-hidden1):\n\n";
+	for(int a=0;a<hiddenLayer1Size;a++){
+		std::cout<<hiddenLayer1[a]<<"\n";
+	}
+
+	//reLU on hidden1
+	for(int a=0;a<hiddenLayer1Size;a++){
+		hiddenLayer1[a] = std::max(0.0,hiddenLayer1[a]);
+	}
+
+	std::cout<<"\n\nFORWARD_PROPAGATION(hidden1):\n\n";
 	for(int a=0;a<hiddenLayer1Size;a++){
 		std::cout<<hiddenLayer1[a]<<"\n";
 	}
