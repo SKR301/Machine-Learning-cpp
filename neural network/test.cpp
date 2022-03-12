@@ -5,13 +5,13 @@ int main(int argc, char const *argv[]){
 
 	NeuralNetwork NN("train_data.csv");
 
-	NN.readData();
-	NN.initInputOutput(0);
+	// NN.readData();
+	// NN.initInputOutput(0);
 
 	// NN.printData();
-	NN.printInputLayerData();
-	NN.printModel();
-	NN.forwardPropagation();
+	// NN.printInputLayerData();
+	// NN.printModel();
+	// NN.forwardPropagation();
 
 	std::cout<<"\n\n";
 	system("pause");

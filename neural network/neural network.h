@@ -12,6 +12,7 @@ private:
 	std::vector<std::vector<double>> hidden1OutputWeight;
 	std::vector<double> hiddenLayer1Bias;
 	std::vector<double> outputLayerBias;
+	std::vector<std::vector<double>> oneHot;
 	int actualOutput;
 	int output;
 
@@ -71,6 +72,20 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 	for(int a=0;a<outputLayerSize;a++){
 		outputLayerBias.push_back(((double)(rand() % 1000)/ 1000) - 0.5);
 	}
+	for(int a=0;a<outputLayerSize;a++){
+		std::vector<double> temp;
+		for(int b=0;b<outputLayerSize;b++){
+			(a==b)?temp.push_back(1):temp.push_back(0);
+		}
+		oneHot.push_back(temp);
+	}
+	for(int a=0;a<outputLayerSize;a++){
+		for(int b=0;b<outputLayerSize;b++){
+			std::cout<<oneHot[a][b]<<" ";
+		}
+		std::cout<<"\n";
+	}
+
 }
 
 void NeuralNetwork::readData(){
@@ -148,6 +163,10 @@ void NeuralNetwork::forwardPropagation(){
 	// for(int a=0;a<outputLayerSize;a++){
 	// 	std::cout<<outputLayer[a]<<"\t";
 	// }
+}
+
+void NeuralNetwork::backwardPropagation(){
+
 }
 
 std::vector<double> NeuralNetwork::ReLU(std::vector<double> vec, int size){
