@@ -29,6 +29,8 @@ public:
 	void forwardPropagation(); 		//run the NN forward (generates an output)
 	void backwardPropagation(); 		//run the NN backward (updates for errors)
 	std::vector<double> calcDotProductAddBias(std::vector<std::vector<double>>, std::vector<double>, std::vector<double>, int, int);	//calculate W.V+B
+	std::vector<double> softMax(std::vector<double>, int);		// return softMax vector for input vector
+	std::vector<double> ReLU(std::vector<double>, int);		// return ReLU vector for input vector
 };
 
 NeuralNetwork::NeuralNetwork(std::string datafile){
@@ -134,35 +136,36 @@ void NeuralNetwork::printModel(){
 }
 
 void NeuralNetwork::forwardPropagation(){
-	// input-hidden1
 	hiddenLayer1 = calcDotProductAddBias(inputHidden1Weight, inputLayer, hiddenLayer1Bias, hiddenLayer1Size, inputLayerSize);
-
-	//reLU on hidden1
-	for(int a=0;a<hiddenLayer1Size;a++){
-		hiddenLayer1[a] = std::max(0.0,hiddenLayer1[a]);
-	}
-
-	std::cout<<"\n\nHIDDEN_LAYER:\n\n";
-	for(int a=0;a<hiddenLayer1Size;a++){
-		std::cout<<hiddenLayer1[a]<<"\t";
-	}
-
-	// hidden1-output
+	hiddenLayer1 = ReLU(hiddenLayer1, hiddenLayer1Size);
 	outputLayer = calcDotProductAddBias(hidden1OutputWeight, hiddenLayer1, outputLayerBias, outputLayerSize, hiddenLayer1Size);
+	outputLayer = softMax(outputLayer, outputLayerSize);
+	// std::cout<<"\n\nHIDDEN_LAYER:\n\n";
+	// for(int a=0;a<hiddenLayer1Size;a++){
+	// 	std::cout<<hiddenLayer1[a]<<"\t";
+	// }
+	// std::cout<<"\n\nOUTERLAYER:\n\n";
+	// for(int a=0;a<outputLayerSize;a++){
+	// 	std::cout<<outputLayer[a]<<"\t";
+	// }
+}
 
-	//softMax on output
+std::vector<double> NeuralNetwork::ReLU(std::vector<double> vec, int size){
+	for(int a=0;a<size;a++){
+		vec[a] = std::max(0.0,vec[a]);
+	}
+	return vec;
+}
+
+std::vector<double> NeuralNetwork::softMax(std::vector<double> vec, int size){
 	double sumExp = 0;
-	for(int a=0;a<outputLayerSize;a++){
-		sumExp += exp(outputLayer[a]);
+	for(int a=0;a<size;a++){
+		sumExp += exp(vec[a]);
 	}
-	for(int a=0;a<outputLayerSize;a++){
-		outputLayer[a] = exp(outputLayer[a]) / sumExp;
+	for(int a=0;a<size;a++){
+		vec[a] = exp(vec[a]) / sumExp;
 	}
-
-	std::cout<<"\n\nOUTERLAYER:\n\n";
-	for(int a=0;a<outputLayerSize;a++){
-		std::cout<<outputLayer[a]<<"\t";
-	}
+	return vec;
 }
 
 std::vector<double> NeuralNetwork::calcDotProductAddBias(std::vector<std::vector<double>> weight, std::vector<double> val, std::vector<double> bias, int row, int col){
@@ -174,7 +177,6 @@ std::vector<double> NeuralNetwork::calcDotProductAddBias(std::vector<std::vector
 			temp += weight[a][b] * val[b];
 		}
 		res[a] = temp + bias[a];
-		std::cout<<res[a]<<" ";
 	}
 	return res;
 }
