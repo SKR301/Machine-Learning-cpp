@@ -13,6 +13,7 @@ private:
 	std::vector<double> hiddenLayer1Bias;
 	std::vector<double> outputLayerBias;
 	int actualOutput;
+	int output;
 
 	int inputLayerSize;
 	int outputLayerSize;
@@ -25,6 +26,8 @@ public:
 	void initInputOutput(int);		//initialize the input layer with provided row data
 	void printInputLayerData();		//print input layer data
 	void printModel();		//print weights and bias
+	void forwardPropagation(); 		//run the NN forward (generates an output)
+	void backwardPropagation(); 		//run the NN backward (updates for errors)
 };
 
 NeuralNetwork::NeuralNetwork(std::string datafile){
@@ -124,5 +127,20 @@ void NeuralNetwork::printModel(){
 	std::cout<<"\n\nOUTPUT_BIAS:\n\n";
 	for(int a=0;a<outputLayerSize;a++){
 		std::cout<<outputLayerBias[a]<<"\t";
+	}
+}
+
+void NeuralNetwork::forwardPropagation(){
+	for(int a=0;a<hiddenLayer1Size;a++){
+		double val = 0;
+		for(int b=0;b<inputLayerSize;b++){
+			val += inputHidden1Weight[a][b] * inputLayer[b];
+		}
+		hiddenLayer1[a] = val + hiddenLayer1Bias[a];
+	}
+
+	std::cout<<"\n\nFORWARD_PROPAGATION:\n\n";
+	for(int a=0;a<hiddenLayer1Size;a++){
+		std::cout<<hiddenLayer1[a]<<"\n";
 	}
 }
