@@ -35,6 +35,7 @@ public:
 	std::vector<double> calcDotProductAddBias(std::vector<std::vector<double>>, std::vector<double>, std::vector<double>, int, int);	//calculate W.V+B
 	std::vector<double> softMax(std::vector<double>, int);		// return softMax vector for input vector
 	std::vector<double> ReLU(std::vector<double>, int);		// return ReLU vector for input vector
+	std::vector<double> vectorSubtraction(std::vector<double>, std::vector<double>, int);		// subtract 2 vectors A-B
 };
 
 NeuralNetwork::NeuralNetwork(std::string datafile){
@@ -168,7 +169,22 @@ void NeuralNetwork::forwardPropagation(){
 }
 
 void NeuralNetwork::backwardPropagation(){
-	// std::vector<double> outputLayerError = vectorSubtraction();
+	std::vector<double> outputLayerError = vectorSubtraction(outputLayer, oneHot[actualOutput], outputLayerSize);
+
+	
+	std::cout<<"\n\nOUTPUT LAYER ERROR:\n\n";
+	for(int a=0;a<outputLayerSize;a++){
+		std::cout<<outputLayerError[a]<<" ";
+	}
+
+}
+
+std::vector<double> NeuralNetwork::vectorSubtraction(std::vector<double> A, std::vector<double> B, int size){
+	std::vector<double> output;
+	for(int a=0;a<size;a++){
+		output.push_back(A[a]-B[a]);
+	}
+	return output;
 }
 
 std::vector<double> NeuralNetwork::ReLU(std::vector<double> vec, int size){

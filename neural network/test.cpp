@@ -13,6 +13,7 @@ int main(int argc, char const *argv[]){
 	NN.printModel();
 	NN.forwardPropagation();
 	NN.printOutputLayerData();
+	NN.backwardPropagation();
 	
 	std::cout<<"\n\n";
 	system("pause");
