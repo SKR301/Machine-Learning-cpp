@@ -6,6 +6,8 @@ public:
 	std::vector<std::vector<double>> readPoint(std::string fileName);	//read from file return points
 	std::vector<std::vector<std::string>> readTable2Col(std::string fileName);	//read from file return string values
 	std::vector<std::string> readTable(std::string fileName);			//read from file return table value
+	std::vector<std::vector<std::string>> readTableMulCol(std::string fileName);			//read from file return table with multiple columns value
+	std::vector<std::vector<int>> readTableMulColIntData(std::string fileName);		//read from int containing file return table with multiple columns value
 };
 
 std::vector<std::vector<double>> csv::readPoint(std::string fileName){
@@ -71,6 +73,51 @@ std::vector<std::vector<std::string>> csv::readTable2Col(std::string fileName){
 	        token = strtok(nullptr, ",");
 	    }
 	    result.push_back(temp);
+	}
+	return result;
+}
+
+std::vector<std::vector<std::string>> csv::readTableMulCol(std::string fileName){
+	std::fstream file(fileName);
+	std::string line;
+	std::vector<std::vector<std::string>> result;
+	std::vector<std::string> temp;
+	std::string i;
+
+	while (std::getline(file, line))		//read a line
+	{
+		char *token = strtok(const_cast<char*>(line.c_str()), ",");
+
+	    while (token != nullptr)
+	    {
+	    	temp.push_back(token);
+	        token = strtok(nullptr, ",");
+	    }
+	    result.push_back(temp);
+	    temp.clear();
+	}
+	return result;
+}
+
+std::vector<std::vector<int>> csv::readTableMulColIntData(std::string fileName){
+	std::fstream file(fileName);
+	std::string line;
+	std::vector<std::vector<int>> result;
+	std::vector<int> temp;
+	std::string i;
+
+	while (std::getline(file, line))		//read a line
+	{
+		char *token = strtok(const_cast<char*>(line.c_str()), ",");
+
+	    while (token != nullptr)
+	    {
+	    	int val = (*token)-'0';
+	    	temp.push_back(val);
+	        token = strtok(nullptr, ",");
+	    }
+	    result.push_back(temp);
+	    temp.clear();
 	}
 	return result;
 }

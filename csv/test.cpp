@@ -25,6 +25,28 @@ int main(int argc, char const *argv[])
 		std::cout<<resultTable[a]<<" ";
 	}
 
+	std::vector<std::vector<std::string>> resultTable = CSV.readTableMulCol("dataMulCol.csv");		//data file
+
+	std::cout<<"\n\n";
+	std::cout<<"Table Content: \n";
+	for(int a=0;a<resultTable.size();a++){
+		for(int b=0;b<resultTable[a].size();b++){
+			std::cout<<resultTable[a][b]<<" ";
+		}
+		std::cout<<"\n";
+	}
+
+	std::vector<std::vector<int>> resultTable = CSV.readTableMulColIntData("dataMulCol.csv");		//data file
+
+	std::cout<<"\n\n";
+	std::cout<<"Table Content: \n";
+	for(int a=0;a<resultTable.size();a++){
+		for(int b=0;b<resultTable[a].size();b++){
+			std::cout<<resultTable[a][b]<<" ";
+		}
+		std::cout<<"\n";
+	}
+
 	std::cout<<"\n\n";
 	system("pause");
 	return 0;
