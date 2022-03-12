@@ -28,6 +28,7 @@ public:
 	void printModel();		//print weights and bias
 	void forwardPropagation(); 		//run the NN forward (generates an output)
 	void backwardPropagation(); 		//run the NN backward (updates for errors)
+	std::vector<double> calcDotProductAddBias(std::vector<std::vector<double>>, std::vector<double>, std::vector<double>, int, int);	//calculate W.V+B
 };
 
 NeuralNetwork::NeuralNetwork(std::string datafile){
@@ -103,6 +104,7 @@ void NeuralNetwork::printInputLayerData(){
 }
 
 void NeuralNetwork::printModel(){
+	std::cout<<"\n\n--------------MODEL-----------:\n\n";
 	std::cout<<"\n\nINPUT_HIDDEN1_WEIGHT:\n\n";
 	for(int a=0;a<hiddenLayer1Size;a++){
 		for(int b=0;b<inputLayerSize;b++){
@@ -128,47 +130,25 @@ void NeuralNetwork::printModel(){
 	for(int a=0;a<outputLayerSize;a++){
 		std::cout<<outputLayerBias[a]<<"\n";
 	}
+	std::cout<<"\n\n------------------------------:\n\n";
 }
 
 void NeuralNetwork::forwardPropagation(){
-	std::cout<<"\n\n--------------------------------:\n\n";
 	// input-hidden1
-	for(int a=0;a<hiddenLayer1Size;a++){
-		double val = 0;
-		for(int b=0;b<inputLayerSize;b++){
-			val += inputHidden1Weight[a][b] * inputLayer[b];
-		}
-		hiddenLayer1[a] = val + hiddenLayer1Bias[a];
-	}
-
-	std::cout<<"\n\nFORWARD_PROPAGATION(hidden1):\n\n";
-	for(int a=0;a<hiddenLayer1Size;a++){
-		std::cout<<hiddenLayer1[a]<<"\t";
-	}
+	hiddenLayer1 = calcDotProductAddBias(inputHidden1Weight, inputLayer, hiddenLayer1Bias, hiddenLayer1Size, inputLayerSize);
 
 	//reLU on hidden1
 	for(int a=0;a<hiddenLayer1Size;a++){
 		hiddenLayer1[a] = std::max(0.0,hiddenLayer1[a]);
 	}
 
-	std::cout<<"\n\nFORWARD_PROPAGATION(hidden1 ACTIVATED):\n\n";
+	std::cout<<"\n\nHIDDEN_LAYER:\n\n";
 	for(int a=0;a<hiddenLayer1Size;a++){
 		std::cout<<hiddenLayer1[a]<<"\t";
 	}
 
 	// hidden1-output
-	for(int a=0;a<outputLayerSize;a++){
-		double val = 0;
-		for(int b=0;b<hiddenLayer1Size;b++){
-			val += hidden1OutputWeight[a][b] * hiddenLayer1[b];
-		}
-		outputLayer[a] = val + outputLayerBias[a];
-	}
-
-	std::cout<<"\n\nFORWARD_PROPAGATION(output):\n\n";
-	for(int a=0;a<outputLayerSize;a++){
-		std::cout<<outputLayer[a]<<"\t";
-	}
+	outputLayer = calcDotProductAddBias(hidden1OutputWeight, hiddenLayer1, outputLayerBias, outputLayerSize, hiddenLayer1Size);
 
 	//softMax on output
 	double sumExp = 0;
@@ -179,8 +159,22 @@ void NeuralNetwork::forwardPropagation(){
 		outputLayer[a] = exp(outputLayer[a]) / sumExp;
 	}
 
-	std::cout<<"\n\nFORWARD_PROPAGATION(output ACTIVATED):\n\n";
+	std::cout<<"\n\nOUTERLAYER:\n\n";
 	for(int a=0;a<outputLayerSize;a++){
 		std::cout<<outputLayer[a]<<"\t";
 	}
+}
+
+std::vector<double> NeuralNetwork::calcDotProductAddBias(std::vector<std::vector<double>> weight, std::vector<double> val, std::vector<double> bias, int row, int col){
+	std::vector<double> res(row,0.0);
+
+	for(int a=0;a<row;a++){
+		double temp = 0;
+		for(int b=0;b<col;b++){
+			temp += weight[a][b] * val[b];
+		}
+		res[a] = temp + bias[a];
+		std::cout<<res[a]<<" ";
+	}
+	return res;
 }
