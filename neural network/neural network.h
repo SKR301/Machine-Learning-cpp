@@ -23,6 +23,7 @@ private:
 	int inputLayerSize;
 	int outputLayerSize;
 	int hiddenLayer1Size;
+	double alpha;
 
 public:
 	NeuralNetwork(std::string);
@@ -33,6 +34,7 @@ public:
 	void printHiddenLayer1Data();		//print hidden layer1 data
 	void printOutputLayerData();		//print output layer data
 	void printModel();		//print weights and bias
+	void printTrainOutput();		//print expected and actual output
 	void forwardPropagation(); 		//run the NN forward (generates an output)
 	void backwardPropagation(); 		//run the NN backward (updates for errors)
 	std::vector<double> calcDotProductAddBias(std::vector<std::vector<double>>, std::vector<double>, std::vector<double>, int, int);	//calculate W.V+B
@@ -43,6 +45,10 @@ public:
 	std::vector<double> vectorSubtraction(std::vector<double>, std::vector<double>, int);		// subtract 2 vectors A-B
 	std::vector<std::vector<double>> calcDotProductAvg(std::vector<double>, std::vector<double>, int, int);		// calculate A.B/m
 	std::vector<double> calcDotMultiplyReLUInv(std::vector<std::vector<double>>, std::vector<double>, std::vector<double>, int, int);		// returns A.B*C
+	std::vector<std::vector<double>> updateWeight(std::vector<std::vector<double>>, std::vector<std::vector<double>>, int, int);	//update the input vector by given error
+	int calcOutput();		//calculate output
+	void updateParam();		//updates parameters
+
 };
 
 NeuralNetwork::NeuralNetwork(std::string datafile){
@@ -51,6 +57,7 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 	inputLayerSize = 9;
 	hiddenLayer1Size = 9;
 	outputLayerSize = 2;
+	alpha = 0.2;
 
 	for(int a=0;a<inputLayerSize;a++){
 		inputLayer.push_back(0);
@@ -168,6 +175,11 @@ void NeuralNetwork::printModel(){
 	std::cout<<"\n\n------------------------------:\n\n";
 }
 
+void NeuralNetwork::printTrainOutput(){
+	std::cout<<"\n\nActual\tExpected:";
+	std::cout<<"\n"<<output<<"\t"<<expectedOutput;
+}
+
 void NeuralNetwork::forwardPropagation(){
 	// hiddenLayer1 = calcDotProductAddBias(inputHidden1Weight, inputLayer, hiddenLayer1Bias, hiddenLayer1Size, inputLayerSize);
 	hiddenLayer1 = calcDotProduct(inputHidden1Weight, inputLayer, hiddenLayer1Size, inputLayerSize);
@@ -175,6 +187,17 @@ void NeuralNetwork::forwardPropagation(){
 	// outputLayer = calcDotProductAddBias(hidden1OutputWeight, hiddenLayer1, outputLayerBias, outputLayerSize, hiddenLayer1Size);
 	outputLayer = calcDotProduct(hidden1OutputWeight, hiddenLayer1, outputLayerSize, hiddenLayer1Size);
 	outputLayer = softMax(outputLayer, outputLayerSize);
+	output = calcOutput();
+}
+
+int NeuralNetwork::calcOutput(){
+	int pos = 0;
+	for(int a=0;a<outputLayerSize;a++){
+		if(outputLayer[pos]<outputLayer[a]){
+			pos = a;
+		}
+	}
+	return pos;
 }
 
 void NeuralNetwork::backwardPropagation(){
@@ -183,6 +206,20 @@ void NeuralNetwork::backwardPropagation(){
 	std::vector<double> ReLUInv = ReLUDeriv(hiddenLayer1, hiddenLayer1Size);
 	std::vector<double> hiddenLayer1Error = calcDotMultiplyReLUInv(hidden1OutputWeight, outputLayerError, ReLUInv, outputLayerSize, hiddenLayer1Size);
 	inputHidden1WeightError = calcDotProductAvg(hiddenLayer1Error, inputLayer, hiddenLayer1Size, inputLayerSize);
+}
+
+void NeuralNetwork::updateParam(){
+	inputHidden1Weight = updateWeight(inputHidden1Weight, inputHidden1WeightError, hiddenLayer1Size, inputLayerSize);
+	hidden1OutputWeight = updateWeight(hidden1OutputWeight, hidden1OutputWeightError, outputLayerSize, hiddenLayer1Size);
+}
+
+std::vector<std::vector<double>> NeuralNetwork::updateWeight(std::vector<std::vector<double>> vec, std::vector<std::vector<double>> update, int row, int col){
+	for(int a=0;a<row;a++){
+		for(int b=0;b<col;b++){
+			vec[a][b] = vec[a][b] - alpha * update[a][b];
+		}
+	}
+	return vec;
 }
 
 std::vector<double> NeuralNetwork::vectorSubtraction(std::vector<double> A, std::vector<double> B, int size){
