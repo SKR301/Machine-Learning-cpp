@@ -13,12 +13,13 @@ private:
 	std::vector<double> hiddenLayer1Bias;
 	std::vector<double> outputLayerBias;
 	std::vector<std::vector<double>> oneHot;
-	int actualOutput;
+	int expectedOutput;
 	int output;
 	std::vector<std::vector<double>> inputHidden1WeightError;
 	std::vector<std::vector<double>> hidden1OutputWeightError;
 	std::vector<double> hiddenLayer1BiasError;
 	std::vector<double> outputLayerBiasError;
+	double outputRMSError;
 
 	int inputLayerSize;
 	int outputLayerSize;
@@ -38,7 +39,7 @@ public:
 	std::vector<double> calcDotProductAddBias(std::vector<std::vector<double>>, std::vector<double>, std::vector<double>, int, int);	//calculate W.V+B
 	std::vector<double> softMax(std::vector<double>, int);		// return softMax vector for input vector
 	std::vector<double> ReLU(std::vector<double>, int);		// return ReLU vector for input vector
-	std::vector<double> vectorSubtraction(std::vector<double>, std::vector<double>, int);		// subtract 2 vectors A-B
+	std::vector<std::vector<double>> RMSError(std::vector<double>, std::vector<double>, int);		// subtract 2 vectors A-B
 	std::vector<std::vector<double>> calcDotProductAvg(std::vector<double>, std::vector<double>, int, int);		// calculate A.B/m
 };
 
@@ -101,7 +102,7 @@ void NeuralNetwork::initInputOutput(int row){
 		inputLayer.push_back((double)data[row][a+1]);
 	}
 
-	actualOutput = data[row][0];
+	expectedOutput = data[row][0];
 }
 
 void NeuralNetwork::printData(){
@@ -173,28 +174,31 @@ void NeuralNetwork::forwardPropagation(){
 }
 
 void NeuralNetwork::backwardPropagation(){
-	std::vector<double> outputLayerError = vectorSubtraction(outputLayer, oneHot[actualOutput], outputLayerSize);
-	hidden1OutputWeightError = calcDotProductAvg(outputLayerError, hiddenLayer1, outputLayerSize, hiddenLayer1Size);
+	outputRMSError = RMSError(outputLayer, oneHot[expectedOutput], outputLayerSize);
 
-	std::cout<<"\n\noutputLayerError:\n\n";
-	for(int a=0;a<outputLayerError.size();a++){
-			std::cout<<outputLayerError[a]<<" ";
-	}
-	std::cout<<"\n\nhidden1OutputWeightError:\n\n";
-	for(int a=0;a<hidden1OutputWeightError.size();a++){
-		for(int b=0;b<hidden1OutputWeightError[a].size();b++){
-			std::cout<<hidden1OutputWeightError[a][b]<<" ";
-		}
-		std::cout<<"\n";
-	}
+	// hidden1OutputWeightError = calcDotProductAvg(outputLayerError, hiddenLayer1, outputLayerSize, hiddenLayer1Size);
+
+	// std::cout<<"\n\noutputLayerError:\n\n";
+	// for(int a=0;a<outputLayerError.size();a++){
+	// 		std::cout<<outputLayerError[a]<<" ";
+	// }
+	// std::cout<<"\n\nhidden1OutputWeightError:\n\n";
+	// for(int a=0;a<hidden1OutputWeightError.size();a++){
+	// 	for(int b=0;b<hidden1OutputWeightError[a].size();b++){
+	// 		std::cout<<hidden1OutputWeightError[a][b]<<" ";
+	// 	}
+	// 	std::cout<<"\n";
+	// }
 }
 
-std::vector<double> NeuralNetwork::vectorSubtraction(std::vector<double> A, std::vector<double> B, int size){
+double NeuralNetwork::RMSError(std::vector<double> actual, std::vector<double> expected, int size){
 	std::vector<double> output;
+	double errorSqSum = 0;
 	for(int a=0;a<size;a++){
-		output.push_back(A[a]-B[a]);
+		double error = actual[a] - expected[a];
+		errorSqSum += (error * error);
 	}
-	return output;
+	return sqrt(errorSqSum / size);
 }
 
 std::vector<double> NeuralNetwork::ReLU(std::vector<double> vec, int size){
@@ -215,18 +219,18 @@ std::vector<double> NeuralNetwork::softMax(std::vector<double> vec, int size){
 	return vec;
 }
 
-std::vector<double> NeuralNetwork::calcDotProductAddBias(std::vector<std::vector<double>> weight, std::vector<double> val, std::vector<double> bias, int row, int col){
-	std::vector<double> res(row,0.0);
+// std::vector<double> NeuralNetwork::calcDotProductAddBias(std::vector<std::vector<double>> weight, std::vector<double> val, std::vector<double> bias, int row, int col){
+// 	std::vector<double> res(row,0.0);
 
-	for(int a=0;a<row;a++){
-		double temp = 0;
-		for(int b=0;b<col;b++){
-			temp += weight[a][b] * val[b];
-		}
-		res[a] = temp + bias[a];
-	}
-	return res;
-}
+// 	for(int a=0;a<row;a++){
+// 		double temp = 0;
+// 		for(int b=0;b<col;b++){
+// 			temp += weight[a][b] * val[b];
+// 		}
+// 		res[a] = temp + bias[a];
+// 	}
+// 	return res;
+// }
 
 std::vector<std::vector<double>> NeuralNetwork::calcDotProductAvg(std::vector<double> error, std::vector<double> val, int row, int col){
 	std::vector<std::vector<double>> res(row, std::vector<double>(col, 0.0));
