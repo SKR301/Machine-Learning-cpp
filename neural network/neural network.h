@@ -26,6 +26,7 @@ private:
 	double alpha;
 
 public:
+	int correctCount;
 	NeuralNetwork(std::string);
 	void readData();		//read data from csv file
 	void printData();		//print read data
@@ -48,7 +49,6 @@ public:
 	std::vector<std::vector<double>> updateWeight(std::vector<std::vector<double>>, std::vector<std::vector<double>>, int, int);	//update the input vector by given error
 	int calcOutput();		//calculate output
 	void updateParam();		//updates parameters
-
 };
 
 NeuralNetwork::NeuralNetwork(std::string datafile){
@@ -58,6 +58,7 @@ NeuralNetwork::NeuralNetwork(std::string datafile){
 	hiddenLayer1Size = 9;
 	outputLayerSize = 2;
 	alpha = 0.2;
+	correctCount=0;
 
 	for(int a=0;a<inputLayerSize;a++){
 		inputLayer.push_back(0);
@@ -178,6 +179,7 @@ void NeuralNetwork::printModel(){
 void NeuralNetwork::printTrainOutput(){
 	std::cout<<"\n\nActual\tExpected:";
 	std::cout<<"\n"<<output<<"\t"<<expectedOutput;
+	if(output==expectedOutput){correctCount++;}
 }
 
 void NeuralNetwork::forwardPropagation(){
