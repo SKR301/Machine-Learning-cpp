@@ -177,8 +177,8 @@ void NeuralNetwork::printModel(){
 }
 
 void NeuralNetwork::printTrainOutput(){
-	std::cout<<"\n\nActual\tExpected:";
-	std::cout<<"\n"<<output<<"\t"<<expectedOutput;
+	// std::cout<<"\n\nActual\tExpected:";
+	// std::cout<<"\n"<<output<<"\t"<<expectedOutput;
 	if(output==expectedOutput){correctCount++;}
 }
 
