@@ -182,22 +182,7 @@ void NeuralNetwork::backwardPropagation(){
 	hidden1OutputWeightError = calcDotProductAvg(outputLayerError, hiddenLayer1, outputLayerSize, hiddenLayer1Size);
 	std::vector<double> ReLUInv = ReLUDeriv(hiddenLayer1, hiddenLayer1Size);
 	std::vector<double> hiddenLayer1Error = calcDotMultiplyReLUInv(hidden1OutputWeight, outputLayerError, ReLUInv, outputLayerSize, hiddenLayer1Size);
-
-	std::cout<<"\n\noutputLayerError:\n\n";
-	for(int a=0;a<outputLayerError.size();a++){
-		std::cout<<outputLayerError[a]<<"\t";
-	}
-	std::cout<<"\n\nhidden1OutputWeightError:\n\n";
-	for(int a=0;a<hidden1OutputWeightError.size();a++){
-		for(int b=0;b<hidden1OutputWeightError[a].size();b++){
-			std::cout<<hidden1OutputWeightError[a][b]<<"\t";
-		}
-		std::cout<<"\n";
-	}
-	std::cout<<"\n\nhiddenLayer1Error:\n\n";
-	for(int a=0;a<hiddenLayer1Error.size();a++){
-		std::cout<<hiddenLayer1Error[a]<<"\t";
-	}
+	inputHidden1WeightError = calcDotProductAvg(hiddenLayer1Error, inputLayer, hiddenLayer1Size, inputLayerSize);
 }
 
 std::vector<double> NeuralNetwork::vectorSubtraction(std::vector<double> A, std::vector<double> B, int size){
